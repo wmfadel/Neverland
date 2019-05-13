@@ -6,7 +6,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 // files imports
 import '../providers/movies_provider.dart';
+import '../providers/detailed_movie_provider.dart';
 import '../styles/custom_themes.dart';
+import '../screens/movies_details.dart';
 
 class MoviesNowPlayingList extends StatefulWidget {
   @override
@@ -41,37 +43,49 @@ class _MoviesNowPlayingListState extends State<MoviesNowPlayingList> {
               snapShot.data != null &&
               snapShot.data) {
             return ListView.builder(
+              key: PageStorageKey('providerplaying'),
               controller: playingController,
               scrollDirection: Axis.horizontal,
               itemCount: provider.getNowPlayingMovies().length,
               itemBuilder: (context, index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        width: 170,
-                        height: 250,
-                        margin: EdgeInsets.symmetric(horizontal: 8),
-                        child: Image.network(
-                          'https://image.tmdb.org/t/p/w500/${provider.getNowPlayingMovies()[index].poster_path}',
+                return InkWell(
+                  onTap: () {
+                    Provider.of<DetailedMovieProvider>(context).getMovieDetails(
+                        provider.selectMovie(
+                            provider.getNowPlayingMovies()[index].id));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MovieDetails()));
+                  },
+                  highlightColor: Theme.of(context).primaryColorDark,
+                  splashColor: Theme.of(context).accentColor,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
                           width: 170,
                           height: 250,
-                          fit: BoxFit.fill,
+                          margin: EdgeInsets.symmetric(horizontal: 8),
+                          child: Image.network(
+                            'https://image.tmdb.org/t/p/w500/${provider.getNowPlayingMovies()[index].poster_path}',
+                            width: 170,
+                            height: 250,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                        padding: EdgeInsets.all(4),
-                        width: 170,
-                        height: 40,
-                        child: AutoSizeText(
-                          provider.getNowPlayingMovies()[index].title,
-                          textAlign: TextAlign.center,
-                          style: CustomThemes.infoStyle,
-                        ))
-                  ],
+                      Container(
+                          padding: EdgeInsets.all(4),
+                          width: 170,
+                          height: 40,
+                          child: AutoSizeText(
+                            provider.getNowPlayingMovies()[index].title,
+                            textAlign: TextAlign.center,
+                            style: CustomThemes.infoStyle,
+                          ))
+                    ],
+                  ),
                 );
               },
             );

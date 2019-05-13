@@ -7,6 +7,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 // files imports
 import '../providers/movies_provider.dart';
 import '../styles/custom_themes.dart';
+import '../screens/movies_details.dart';
 
 class MoviesTopRatedList extends StatefulWidget {
   @override
@@ -41,37 +42,44 @@ class _MoviesTopRatedListState extends State<MoviesTopRatedList> {
               snapShot.data != null &&
               snapShot.data) {
             return ListView.builder(
+              key: PageStorageKey('providertoprated'),
               controller: playingController,
               scrollDirection: Axis.horizontal,
               itemCount: provider.getTopRatedMovies().length,
               itemBuilder: (context, index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        width: 170,
-                        height: 250,
-                        margin: EdgeInsets.symmetric(horizontal: 8),
-                        child: Image.network(
-                          'https://image.tmdb.org/t/p/w500/${provider.getTopRatedMovies()[index].poster_path}',
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MovieDetails()));
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
                           width: 170,
                           height: 250,
-                          fit: BoxFit.fill,
+                          margin: EdgeInsets.symmetric(horizontal: 8),
+                          child: Image.network(
+                            'https://image.tmdb.org/t/p/w500/${provider.getTopRatedMovies()[index].poster_path}',
+                            width: 170,
+                            height: 250,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                        padding: EdgeInsets.all(4),
-                        width: 170,
-                        height: 40,
-                        child: AutoSizeText(
-                          provider.getTopRatedMovies()[index].title,
-                          textAlign: TextAlign.center,
-                          style: CustomThemes.infoStyle,
-                        ))
-                  ],
+                      Container(
+                          padding: EdgeInsets.all(4),
+                          width: 170,
+                          height: 40,
+                          child: AutoSizeText(
+                            provider.getTopRatedMovies()[index].title,
+                            textAlign: TextAlign.center,
+                            style: CustomThemes.infoStyle,
+                          ))
+                    ],
+                  ),
                 );
               },
             );
@@ -89,7 +97,6 @@ class _MoviesTopRatedListState extends State<MoviesTopRatedList> {
               );
           }
           return Container();
-
         });
   }
 

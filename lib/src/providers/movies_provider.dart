@@ -19,31 +19,36 @@ class MoviesProvider with ChangeNotifier {
   int _topPage = 0;
   bool isLoadingTop = false;
 
+// movies lists
   List<Movie> _playingMovies = [];
   List<Movie> _popularMovies = [];
-  List<Movie> _topRatedmovies = [];
+  List<Movie> _topRatedMovies = [];
 
   List<Movie> getNowPlayingMovies() => _playingMovies;
-  List<Movie> getNPopularMovies() => _popularMovies;
-  List<Movie> getTopRatedMovies() => _topRatedmovies;
 
+  List<Movie> getNPopularMovies() => _popularMovies;
+
+  List<Movie> getTopRatedMovies() => _topRatedMovies;
+
+// Movie selection
+  int _selectedMovie;
+
+  selectMovie(int movieId) => _selectedMovie = movieId;
+
+  int selectedMovie() => _selectedMovie;
+
+// movie fetching
   Future<bool> fetchNowPlayingMovies() async {
     if (!isLoadingNowPlaying) {
       isLoadingNowPlaying = true;
       notifyListeners();
       final String url =
           '${_baseUrl}movie/now_playing?$_key&page=${++_playingPage}';
-      print(url);
       http.Response response = await http.get(url);
-      print('response fteched');
       var res = json.decode(response.body);
-      print('response parsed');
       for (var i in res['results']) {
         _playingMovies.add(Movie.fromJson(i));
-        print(_playingMovies[_playingMovies.length - 1].title);
       }
-      print('list builded');
-
       print(_playingMovies.length);
       isLoadingNowPlaying = false;
       notifyListeners();
@@ -58,17 +63,11 @@ class MoviesProvider with ChangeNotifier {
       notifyListeners();
       final String url =
           '${_baseUrl}movie/popular?$_key&page=${++_popularPage}';
-      print(url);
       http.Response response = await http.get(url);
-      print('response fteched');
       var res = json.decode(response.body);
-      print('response parsed');
       for (var i in res['results']) {
         _popularMovies.add(Movie.fromJson(i));
-        print(_popularMovies[_popularMovies.length - 1].title);
       }
-      print('list builded');
-
       print(_popularMovies.length);
       isLoadingPopular = false;
       notifyListeners();
@@ -81,26 +80,17 @@ class MoviesProvider with ChangeNotifier {
     if (!isLoadingTop) {
       isLoadingTop = true;
       notifyListeners();
-      final String url =
-          '${_baseUrl}movie/top_rated?$_key&page=${++_topPage}';
-      print(url);
+      final String url = '${_baseUrl}movie/top_rated?$_key&page=${++_topPage}';
       http.Response response = await http.get(url);
-      print('response fteched');
       var res = json.decode(response.body);
-      print('response parsed');
       for (var i in res['results']) {
-        _topRatedmovies.add(Movie.fromJson(i));
-        print(_topRatedmovies[_topRatedmovies.length - 1].title);
+        _topRatedMovies.add(Movie.fromJson(i));
       }
-      print('list builded');
-
-      print(_topRatedmovies.length);
+      print(_topRatedMovies.length);
       isLoadingTop = false;
       notifyListeners();
       return true;
     }
     return true;
   }
-
-
 }

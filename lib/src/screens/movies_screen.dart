@@ -29,7 +29,8 @@ class _MoviesScreenState extends State<MoviesScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, bottom: 8),
-            child: Text('Now playing Movies', style: CustomThemes.subHeaderStyle),
+            child:
+                Text('Now playing Movies', style: CustomThemes.subHeaderStyle),
           ),
           Container(
             height: 310,
