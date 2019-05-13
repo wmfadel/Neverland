@@ -30,12 +30,6 @@ class MoviesProvider with ChangeNotifier {
 
   List<Movie> getTopRatedMovies() => _topRatedMovies;
 
-// Movie selection
-  int _selectedMovie;
-
-  selectMovie(int movieId) => _selectedMovie = movieId;
-
-  int selectedMovie() => _selectedMovie;
 
 // movie fetching
   Future<bool> fetchNowPlayingMovies() async {

@@ -49,10 +49,10 @@ class _MoviesNowPlayingListState extends State<MoviesNowPlayingList> {
               itemCount: provider.getNowPlayingMovies().length,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () {
-                    Provider.of<DetailedMovieProvider>(context).getMovieDetails(
-                        provider.selectMovie(
-                            provider.getNowPlayingMovies()[index].id));
+                  onTap: () async{
+                   int id = provider.getNowPlayingMovies()[index].id;
+                    await Provider.of<DetailedMovieProvider>(context)
+                        .getMovieDetails(id);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => MovieDetails()));
                   },

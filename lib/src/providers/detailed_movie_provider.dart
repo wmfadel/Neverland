@@ -15,7 +15,7 @@ class DetailedMovieProvider with ChangeNotifier {
   DetailedMovie get movie => _movie;
 
   Future<Null> getMovieDetails(int id) async {
-    if (_movie == null) {
+
       if (!isLoading) {
         isLoading = true;
         notifyListeners();
@@ -27,11 +27,7 @@ class DetailedMovieProvider with ChangeNotifier {
         isLoading = false;
         notifyListeners();
       }
-    }
+
   }
 
-  leaveMovie() {
-    _movie = null;
-    notifyListeners();
-  }
 }

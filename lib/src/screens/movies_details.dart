@@ -7,7 +7,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // file imports
 import '../providers/detailed_movie_provider.dart';
-import '../providers/movies_provider.dart';
 import '../models/detailed_movie.dart';
 
 class MovieDetails extends StatefulWidget {
@@ -19,18 +18,21 @@ class _MovieDetailsState extends State<MovieDetails> {
   PageController _pageController = PageController();
   int _currentPage = 0;
 
+
+
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (BuildContext context, DetailedMovieProvider value, Widget child){
       return Scaffold(
-        body: value.movie != null
-            ? buildBodyContent(value.movie)
-            : Center(
-          child: SpinKitWave(
-            color: Theme.of(context).accentColor,
-            size: 35,
+          body: value.movie != null
+              ? buildBodyContent(value.movie)
+              : Center(
+            child: SpinKitWave(
+              color: Theme.of(context).accentColor,
+              size: 35,
+            ),
           ),
-        ),
+
       );
     });
   }
@@ -53,9 +55,9 @@ class _MovieDetailsState extends State<MovieDetails> {
             children: <Widget>[
               buildPage1(movie.poster_path),
               buildPage2(movie.poster_path),
-              Text('page 3'),
-              Text('page 4'),
-              Text('page 5'),
+              buildPage3(movie.poster_path),
+              buildPage4(movie.poster_path),
+              buildPage5(movie.poster_path),
             ],
           ),
           buildDirectionsRight(context),
@@ -91,9 +93,58 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
+  Widget buildPage3(String path) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Image.network(
+            'https://image.tmdb.org/t/p/w500/$path',
+            fit: BoxFit.fill,
+          ),
+        ),
+        buildBackdropFilter()
+      ],
+    );
+  }
+
+  Widget buildPage4(String path) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Image.network(
+            'https://image.tmdb.org/t/p/w500/$path',
+            fit: BoxFit.fill,
+          ),
+        ),
+        buildBackdropFilter()
+      ],
+    );
+  }
+
+  Widget buildPage5(String path) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Image.network(
+            'https://image.tmdb.org/t/p/w500/$path',
+            fit: BoxFit.fill,
+          ),
+        ),
+        buildBackdropFilter()
+      ],
+    );
+  }
+
+
   BackdropFilter buildBackdropFilter() {
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+      filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
