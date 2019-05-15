@@ -192,7 +192,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                             )
                           : Container(),
                     ],
-                  ), // end of images stack
+                  ),
+                  // end of images stack
                   SizedBox(height: 18),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -201,29 +202,55 @@ class _MovieDetailsState extends State<MovieDetails> {
                         style: CustomThemes.whiteHeaderStyle2),
                   ),
                   SizedBox(height: 50),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text('Status', style: CustomThemes.whiteHeaderStyle),
-                          Text('Runtime', style: CustomThemes.whiteHeaderStyle),
-                          Text('Rate', style: CustomThemes.whiteHeaderStyle),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text(movie.status,
-                              style: CustomThemes.whiteHeaderStyle),
-                          Text(movie.runtime,
-                              style: CustomThemes.whiteHeaderStyle),
-                          Text(movie.vote_average,
-                              style: CustomThemes.whiteHeaderStyle),
-                        ],
-                      )
-                    ],
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text('Status',
+                                style:
+                                    TextStyle(color: Colors.white, fontSize: 18)),
+                            Text('Release Date',
+                                style:
+                                TextStyle(color: Colors.white, fontSize: 18)),
+                            Text('Runtime',
+                                style:
+                                    TextStyle(color: Colors.white, fontSize: 18)),
+                            Text('Revenue',
+                                style:
+                                TextStyle(color: Colors.white, fontSize: 18)),
+                            Text('Rate',
+                                style:
+                                    TextStyle(color: Colors.white, fontSize: 18)),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text(movie.status,
+                                style:
+                                    TextStyle(color: Colors.white, fontSize: 18)),
+                            Text(movie.release_date,
+                                style:
+                                TextStyle(color: Colors.white, fontSize: 18)),
+                            Text(movie.runtime,
+                                style:
+                                    TextStyle(color: Colors.white, fontSize: 18)),
+                            Text(movie.revenue,
+                                style:
+                                TextStyle(color: Colors.white, fontSize: 18)),
+
+                            Text(movie.vote_average,
+                                style:
+                                    TextStyle(color: Colors.white, fontSize: 18)),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
