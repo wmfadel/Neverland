@@ -33,7 +33,7 @@ class MoviesProvider with ChangeNotifier {
 
 // movie fetching
   Future<bool> fetchNowPlayingMovies() async {
-    if (!isLoadingNowPlaying) {
+    if (!isLoadingNowPlaying && _playingMovies.length <= 150) {
       isLoadingNowPlaying = true;
       notifyListeners();
       final String url =
@@ -52,7 +52,7 @@ class MoviesProvider with ChangeNotifier {
   }
 
   Future<bool> fetchPopularMovies() async {
-    if (!isLoadingPopular) {
+    if (!isLoadingPopular && _popularMovies.length<=150) {
       isLoadingPopular = true;
       notifyListeners();
       final String url =
@@ -71,7 +71,7 @@ class MoviesProvider with ChangeNotifier {
   }
 
   Future<bool> fetchTopRatedMovies() async {
-    if (!isLoadingTop) {
+    if (!isLoadingTop && _topRatedMovies.length <= 150) {
       isLoadingTop = true;
       notifyListeners();
       final String url = '${_baseUrl}movie/top_rated?$_key&page=${++_topPage}';

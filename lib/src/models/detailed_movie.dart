@@ -11,6 +11,7 @@ class DetailedMovie {
   final String overview;
   final String popularity;
   final String poster_path;
+  final String backdrop_path;
   final List<ProductionCompany> production_companies;
   final List<ProductionCountry> production_countries;
   final String release_date;
@@ -35,6 +36,7 @@ class DetailedMovie {
         this.overview = parsedJson['overview'] ?? '',
         this.popularity = parsedJson['popularity'].toString() ?? '',
         this.poster_path = parsedJson['poster_path'] ?? '',
+        this.backdrop_path = parsedJson['backdrop_path'] ?? '',
         this.production_companies =
             _getCompanies(parsedJson['production_companies']) ?? [],
         this.production_countries =

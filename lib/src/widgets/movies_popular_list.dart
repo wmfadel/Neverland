@@ -6,6 +6,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 // files imports
 import '../providers/movies_provider.dart';
+import '../providers/detailed_movie_provider.dart';
 import '../styles/custom_themes.dart';
 import '../screens/movies_details.dart';
 
@@ -48,10 +49,15 @@ class _MoviesPopularListState extends State<MoviesPopularList> {
               itemCount: provider.getNPopularMovies().length,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () {
+                  onTap: () async{
+                    int id = provider.getNPopularMovies()[index].id;
+                    await Provider.of<DetailedMovieProvider>(context)
+                        .getMovieDetails(id);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => MovieDetails()));
                   },
+                  highlightColor: Theme.of(context).primaryColorDark,
+                  splashColor: Theme.of(context).accentColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[

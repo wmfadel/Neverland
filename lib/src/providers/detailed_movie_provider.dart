@@ -15,19 +15,16 @@ class DetailedMovieProvider with ChangeNotifier {
   DetailedMovie get movie => _movie;
 
   Future<Null> getMovieDetails(int id) async {
-
-      if (!isLoading) {
-        isLoading = true;
-        notifyListeners();
-        String url = '${_baseUrl}movie/$id?$_key';
-        http.Response response = await http.get(url);
-        var res = json.decode(response.body);
-        _movie = DetailedMovie.fromJson(res);
-        print(_movie.title);
-        isLoading = false;
-        notifyListeners();
-      }
-
+    if (!isLoading) {
+      isLoading = true;
+      notifyListeners();
+      String url = '${_baseUrl}movie/$id?$_key';
+      http.Response response = await http.get(url);
+      var res = json.decode(response.body);
+      _movie = DetailedMovie.fromJson(res);
+      print(_movie.title);
+      isLoading = false;
+      notifyListeners();
+    }
   }
-
 }
