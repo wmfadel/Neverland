@@ -10,6 +10,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import '../providers/detailed_movie_provider.dart';
 import '../models/detailed_movie.dart';
 import '../styles/custom_themes.dart';
+import '../widgets/info_Chip.dart';
+import '../models/production_company.dart';
+import '../models/production_country.dart';
 
 class MovieDetails extends StatefulWidget {
   @override
@@ -60,8 +63,7 @@ class _MovieDetailsState extends State<MovieDetails> {
               buildPage1(movie.poster_path),
               buildPage2(movie),
               buildPage3(movie),
-              buildPage4(movie.poster_path),
-              buildPage5(movie.poster_path),
+              buildPage4(movie)
             ],
           ),
           buildDirectionsRight(context),
@@ -160,19 +162,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                       ),
                       Positioned(
                         top: 175,
-                        child: Container(
-                          width: screenWidth * 0.85,
-                          height: 80,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                            colors: <Color>[
-                              Colors.transparent,
-                              Theme.of(context).primaryColor,
-                            ],
-                            begin: AlignmentDirectional.topCenter,
-                            end: AlignmentDirectional.bottomCenter,
-                          )),
-                        ),
+                        child: buildShadowContainer(),
                       ),
                       movie.adult
                           ? Positioned(
@@ -194,64 +184,101 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ],
                   ),
                   // end of images stack
-                  SizedBox(height: 18),
+                  SizedBox(height: 10),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(movie.tagline,
                         textAlign: TextAlign.center,
                         style: CustomThemes.whiteHeaderStyle2),
                   ),
-                  SizedBox(height: 50),
 
+                  SizedBox(height: 10),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        height: 200,
+                        child: ListView(
                           children: <Widget>[
-                            Text('Status',
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 18)),
-                            Text('Release Date',
-                                style:
-                                TextStyle(color: Colors.white, fontSize: 18)),
-                            Text('Runtime',
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 18)),
-                            Text('Revenue',
-                                style:
-                                TextStyle(color: Colors.white, fontSize: 18)),
-                            Text('Rate',
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 18)),
+                            Chip(
+                                backgroundColor: Colors.green,
+                                label: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      InfoChip('Status'),
+                                      SizedBox(width: 8),
+                                      InfoChip(movie.status),
+                                    ],
+                                  ),
+                                )),
+                            SizedBox(height: 10),
+                            Chip(
+                                backgroundColor: Colors.green,
+                                label: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      InfoChip('Release Date'),
+                                      SizedBox(width: 8),
+                                      InfoChip(movie.release_date),
+                                    ],
+                                  ),
+                                )),
+                            SizedBox(height: 10),
+
+                            Chip(
+                              backgroundColor: Colors.green,
+                              label: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      InfoChip('Runtime'),
+                                      SizedBox(width: 8),
+                                      InfoChip(movie.runtime),
+                                    ],
+                                  )),
+                            ),
+                            SizedBox(height: 10),
+
+                            Chip(
+                                backgroundColor: Colors.green,
+                                label: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      InfoChip('Revenue'),
+                                      SizedBox(width: 8),
+                                      InfoChip(movie.revenue),
+                                    ],
+                                  ),
+                                )),
+                            SizedBox(height: 10),
+
+                            Chip(
+                                backgroundColor: Colors.green,
+                                label: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      InfoChip('Rate'),
+                                      SizedBox(width: 8),
+                                      InfoChip(movie.vote_average)
+                                    ],
+                                  ),
+                                )),
                           ],
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Text(movie.status,
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 18)),
-                            Text(movie.release_date,
-                                style:
-                                TextStyle(color: Colors.white, fontSize: 18)),
-                            Text(movie.runtime,
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 18)),
-                            Text(movie.revenue,
-                                style:
-                                TextStyle(color: Colors.white, fontSize: 18)),
-
-                            Text(movie.vote_average,
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 18)),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
+                      )),
                 ],
               ),
             ),
@@ -261,35 +288,127 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
-  Widget buildPage4(String path) {
+  Widget buildPage4(DetailedMovie movie) {
     return Stack(
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Image.network(
-            'https://image.tmdb.org/t/p/w500/$path',
+            'https://image.tmdb.org/t/p/w500/${movie.poster_path}',
             fit: BoxFit.fill,
           ),
         ),
-        buildBackdropFilter()
+        buildBackdropFilter(),
+        Align(
+          alignment: Alignment.center,
+          child: Material(
+            elevation: 10,
+            color: Theme.of(context).primaryColor,
+            clipBehavior: Clip.hardEdge,
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              width: screenWidth * 0.85,
+              height: screenHeight * 0.8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      Image.network(
+                        'https://image.tmdb.org/t/p/w500/${movie.backdrop_path}',
+                        width: screenWidth * 0.85,
+                        height: 250,
+                        fit: BoxFit.fill,
+                      ),
+                      Positioned(
+                        top: 175,
+                        child: buildShadowContainer(),
+                      ),
+                      movie.adult
+                          ? Positioned(
+                              top: 5,
+                              left: 5,
+                              child: CircleAvatar(
+                                radius: 25,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                child: Text(
+                                  '+18',
+                                  style: TextStyle(
+                                      color: Theme.of(context).accentColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                    ],
+                  ),
+                  // end of images stack
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(movie.tagline,
+                        textAlign: TextAlign.center,
+                        style: CustomThemes.whiteHeaderStyle2),
+                  ),
+
+                  SizedBox(height: 20),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    height: 200,
+                    child: ListView(
+                      children: <Widget>[
+                        Center(
+                          child: Text('Production Companies',
+                              style: CustomThemes.whiteHeaderStyle),
+                        ),
+                        Center(
+                            child: Wrap(
+                          spacing: 10,
+                          children: movie.production_companies
+                              .map((ProductionCompany company) {
+                            return InfoChip(company.name);
+                          }).toList(),
+                        )),
+                        Center(
+                          child: Text('Production Countries',
+                              style: CustomThemes.whiteHeaderStyle),
+                        ),
+                        Center(
+                          child: Wrap(
+                            spacing: 10,
+                            children: movie.production_countries
+                                .map((ProductionCountry country) {
+                              return InfoChip(country.name);
+                            }).toList(),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
 
-  Widget buildPage5(String path) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Image.network(
-            'https://image.tmdb.org/t/p/w500/$path',
-            fit: BoxFit.fill,
-          ),
-        ),
-        buildBackdropFilter()
-      ],
+  Container buildShadowContainer() {
+    return Container(
+      width: screenWidth * 0.85,
+      height: 80,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        colors: <Color>[
+          Colors.transparent,
+          Theme.of(context).primaryColor,
+        ],
+        begin: AlignmentDirectional.topCenter,
+        end: AlignmentDirectional.bottomCenter,
+      )),
     );
   }
 

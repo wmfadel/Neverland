@@ -11,14 +11,18 @@ class DetailedMovieProvider with ChangeNotifier {
   final String _key = 'api_key=f05286ad9b97b7821731e08bc891a337';
   bool isLoading = false;
   DetailedMovie _movie;
-
+  int movieId;
   DetailedMovie get movie => _movie;
 
+
+
   Future<Null> getMovieDetails(int id) async {
+    movieId = id;
     if (!isLoading) {
       isLoading = true;
       notifyListeners();
       String url = '${_baseUrl}movie/$id?$_key';
+
       http.Response response = await http.get(url);
       var res = json.decode(response.body);
       _movie = DetailedMovie.fromJson(res);
@@ -27,4 +31,6 @@ class DetailedMovieProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+
 }
