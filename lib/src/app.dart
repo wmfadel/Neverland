@@ -7,11 +7,13 @@ import 'screens/home_page.dart';
 import 'styles/custom_themes.dart';
 import 'providers/movies_provider.dart';
 import 'providers/detailed_movie_provider.dart';
+import 'providers/tv_provider.dart';
 
 class App extends StatelessWidget {
   // initializing providers
   MoviesProvider moviesProvider = MoviesProvider();
   DetailedMovieProvider detailedMovieProvider = DetailedMovieProvider();
+  TVProvider tvProvider = TVProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,9 @@ class App extends StatelessWidget {
         Provider<MoviesProvider>.value(
           value: moviesProvider,
         ),
-//        Provider<DetailedMovieProvider>.value(
-//          value: detailedMovieProvider,
-//        ),
+        Provider<TVProvider>.value(
+          value: tvProvider,
+        ),
         ChangeNotifierProvider(builder: (_)=>detailedMovieProvider)
       ],
       child: MaterialApp(

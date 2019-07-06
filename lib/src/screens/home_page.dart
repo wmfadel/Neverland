@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       BottomNavigationBarItem(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Color(0xff0D47A1),
         icon: Icon(
           Icons.tv,
           color: Theme.of(context).accentColor,
@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       BottomNavigationBarItem(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Color(0xffB71C1C),
         icon: Icon(
           Icons.search,
           color: Theme.of(context).accentColor,
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       BottomNavigationBarItem(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Color(0xff1B5E20),
         icon: Icon(
           Icons.trending_up,
           color: Theme.of(context).accentColor,

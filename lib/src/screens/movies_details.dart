@@ -184,7 +184,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ],
                   ),
                   // end of images stack
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(movie.tagline,
@@ -192,93 +192,24 @@ class _MovieDetailsState extends State<MovieDetails> {
                         style: CustomThemes.whiteHeaderStyle2),
                   ),
 
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Container(
-                        height: 200,
-                        child: ListView(
-                          children: <Widget>[
-                            Chip(
-                                backgroundColor: Colors.green,
-                                label: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      InfoChip('Status'),
-                                      SizedBox(width: 8),
-                                      InfoChip(movie.status),
-                                    ],
-                                  ),
-                                )),
-                            SizedBox(height: 10),
-                            Chip(
-                                backgroundColor: Colors.green,
-                                label: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      InfoChip('Release Date'),
-                                      SizedBox(width: 8),
-                                      InfoChip(movie.release_date),
-                                    ],
-                                  ),
-                                )),
-                            SizedBox(height: 10),
-
-                            Chip(
-                              backgroundColor: Colors.green,
-                              label: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      InfoChip('Runtime'),
-                                      SizedBox(width: 8),
-                                      InfoChip(movie.runtime),
-                                    ],
-                                  )),
-                            ),
-                            SizedBox(height: 10),
-
-                            Chip(
-                                backgroundColor: Colors.green,
-                                label: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      InfoChip('Revenue'),
-                                      SizedBox(width: 8),
-                                      InfoChip(movie.revenue),
-                                    ],
-                                  ),
-                                )),
-                            SizedBox(height: 10),
-
-                            Chip(
-                                backgroundColor: Colors.green,
-                                label: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      InfoChip('Rate'),
-                                      SizedBox(width: 8),
-                                      InfoChip(movie.vote_average)
-                                    ],
-                                  ),
-                                )),
-                          ],
-                        ),
-                      )),
+                          height: 200,
+                          child: ListView(
+                            children: <Widget>[
+                              Wrap(
+                                children: <Widget>[
+                                  InfoChip('Status', movie.status),
+                                  InfoChip('Runtime', movie.runtime),
+                                  InfoChip('Rate', movie.vote_average),
+                                  InfoChip('Revenue', movie.revenue),
+                                  InfoChip('Release Date', movie.release_date),
+                                ],
+                              )
+                            ],
+                          ))),
                 ],
               ),
             ),
@@ -368,7 +299,10 @@ class _MovieDetailsState extends State<MovieDetails> {
                           spacing: 10,
                           children: movie.production_companies
                               .map((ProductionCompany company) {
-                            return InfoChip(company.name);
+                            return Chip(
+                              label: Text(company.name),
+                              backgroundColor: Color(0xffFB8C00),
+                            );
                           }).toList(),
                         )),
                         Center(
@@ -380,7 +314,10 @@ class _MovieDetailsState extends State<MovieDetails> {
                             spacing: 10,
                             children: movie.production_countries
                                 .map((ProductionCountry country) {
-                              return InfoChip(country.name);
+                              return Chip(
+                                label: Text(country.name),
+                                backgroundColor: Color(0xffFB8C00),
+                              );
                             }).toList(),
                           ),
                         )
@@ -440,7 +377,7 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget buildDirectionsRight(BuildContext context) {
-    return _currentPage < 4
+    return _currentPage < 3
         ? Padding(
             padding: const EdgeInsets.only(right: 42),
             child: Align(

@@ -10,10 +10,21 @@ class TrendsScreen extends StatefulWidget {
 }
 
 class _TrendsScreenState extends State<TrendsScreen> {
+
+  double screenWidth;
+  double screenHeight;
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('trending Page'),
+    Size size = MediaQuery.of(context).size;
+    screenHeight = size.height;
+    screenWidth = size.width;
+    return Container(
+      width: screenWidth,
+      height: screenHeight,
+      color: Color(0xff4CAF50),
+      child: Center(
+        child: Text('trending Page'),
+      ),
     );
   }
 }

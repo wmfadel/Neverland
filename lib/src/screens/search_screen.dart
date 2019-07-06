@@ -9,10 +9,21 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  double screenWidth;
+  double screenHeight;
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('search Page'),
+    Size size = MediaQuery.of(context).size;
+    screenHeight = size.height;
+    screenWidth = size.width;
+    return Container(
+      width: screenWidth,
+      height: screenHeight,
+      color: Color(0xffE53935),
+      child: Center(
+        child: Text('search Page'),
+      ),
     );
   }
 }
