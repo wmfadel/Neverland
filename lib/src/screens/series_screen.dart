@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/series_on_air.dart';
+import '../widgets/series_popular.dart';
 
 class SeriesScreen extends StatefulWidget {
   final Key key;
@@ -33,6 +34,15 @@ class _SeriesScreenState extends State<SeriesScreen> {
                     fontSize: 22),
               ),
               SeriesOnAir(),
+              SizedBox(height: 15),
+              Text(
+                'Popular Series',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22),
+              ),
+              SeriesPopular(),
             ],
           ),
         ));

@@ -4,12 +4,12 @@ import 'package:provider/provider.dart';
 import '../providers/tv_provider.dart';
 import '../widgets/tv_item.dart';
 
-class SeriesOnAir extends StatefulWidget {
+class SeriesPopular extends StatefulWidget {
   @override
-  _SeriesOnAirState createState() => _SeriesOnAirState();
+  _SeriesPopularState createState() => _SeriesPopularState();
 }
 
-class _SeriesOnAirState extends State<SeriesOnAir> {
+class _SeriesPopularState extends State<SeriesPopular> {
   TVProvider provider;
   double screenWidth;
   double screenHeight;
@@ -23,7 +23,7 @@ class _SeriesOnAirState extends State<SeriesOnAir> {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent)
         setState((){
-          Provider.of<TVProvider>(context).getAiringTv();
+          Provider.of<TVProvider>(context).getPopularTv();
         });
     });
   }
@@ -36,22 +36,22 @@ class _SeriesOnAirState extends State<SeriesOnAir> {
     provider = Provider.of<TVProvider>(context);
 
     return FutureBuilder(
-      future: provider.getAiringTv(),
+      future: provider.getPopularTv(),
       builder: (context, snapshot) {
-        if (provider.airingToday.length > 0 &&
+        if (provider.popular.length > 0 &&
             snapshot.data != null &&
             snapshot.data)
           return Container(
             height: 310,
             width: screenWidth,
             child: ListView.builder(
-              key: Key('providerairingderies'),
+              key: PageStorageKey('providerpopulartv'),
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemCount: provider.airingToday.length,
+              itemCount: provider.popular.length,
               itemBuilder: (context, index) {
-                return TVItem(provider.airingToday[index]);
+                return TVItem(provider.popular[index]);
               },
             ),
           );

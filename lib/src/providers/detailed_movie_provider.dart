@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/detailed_movie.dart';
+import '../models/Cast.dart';
 
 class DetailedMovieProvider with ChangeNotifier {
   final String _baseUrl = 'https://api.themoviedb.org/3/';
@@ -12,9 +13,12 @@ class DetailedMovieProvider with ChangeNotifier {
   bool isLoading = false;
   DetailedMovie _movie;
   int movieId;
+
   DetailedMovie get movie => _movie;
 
+  List<Cast> _movieCast = [];
 
+  List<Cast> movieCast() => _movieCast;
 
   Future<Null> getMovieDetails(int id) async {
     movieId = id;
@@ -32,5 +36,16 @@ class DetailedMovieProvider with ChangeNotifier {
     }
   }
 
-
+  Future<Null> getMovieCredits() async {
+    if(_movieCast.length>=0)
+      return;
+    String url = '${_baseUrl}movie/$movieId/credits?$_key';
+    print('cast url $url');
+    http.Response response = await http.get(url);
+    var res = json.decode(response.body);
+    for(var i in res['cast']){
+      _movieCast.add(Cast.fromJson(i));
+    }
+    return;
+  }
 }

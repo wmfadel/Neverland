@@ -1,18 +1,16 @@
 import 'dart:ui';
 
-// library imports
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
-// file imports
-import '../providers/detailed_movie_provider.dart';
 import '../models/detailed_movie.dart';
-import '../styles/custom_themes.dart';
-import '../widgets/info_Chip.dart';
 import '../models/production_company.dart';
 import '../models/production_country.dart';
+import '../providers/detailed_movie_provider.dart';
+import '../styles/custom_themes.dart';
+import '../widgets/info_Chip.dart';
 
 class MovieDetails extends StatefulWidget {
   @override
@@ -21,12 +19,15 @@ class MovieDetails extends StatefulWidget {
 
 class _MovieDetailsState extends State<MovieDetails> {
   PageController _pageController = PageController();
+  DetailedMovieProvider _detailedMovieProvider;
   int _currentPage = 0;
   double screenWidth;
   double screenHeight;
 
   @override
   Widget build(BuildContext context) {
+    _detailedMovieProvider = Provider.of<DetailedMovieProvider>(context);
+    _detailedMovieProvider.getMovieCredits();
     final Size size = MediaQuery.of(context).size;
     screenWidth = size.width;
     screenHeight = size.height;
@@ -63,7 +64,8 @@ class _MovieDetailsState extends State<MovieDetails> {
               buildPage1(movie.poster_path),
               buildPage2(movie),
               buildPage3(movie),
-              buildPage4(movie)
+              buildPage4(movie),
+              buildPage5(movie),
             ],
           ),
           buildDirectionsRight(context),
@@ -333,6 +335,68 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 
+  Widget buildPage5(DetailedMovie movie) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Image.network(
+            'https://image.tmdb.org/t/p/w500/${movie.poster_path}',
+            fit: BoxFit.fill,
+          ),
+        ),
+        buildBackdropFilter(),
+        Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: _detailedMovieProvider.movieCast().length <= 0
+                ? Container()
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 20,
+                        childAspectRatio: 1.2 / 1.7),
+                    itemBuilder: (context, index) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: GridTile(
+                          child: Image.network(
+                            'https://image.tmdb.org/t/p/w500/${_detailedMovieProvider.movieCast()[index].profile_path}',
+                            fit: BoxFit.cover,
+                          ),
+                          footer: Container(
+                            color: Colors.black87,
+                            height: 75,
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  _detailedMovieProvider.movieCast()[index].name,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  _detailedMovieProvider
+                                      .movieCast()[index]
+                                      .character,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }))
+      ],
+    );
+  }
+
   Container buildShadowContainer() {
     return Container(
       width: screenWidth * 0.85,
@@ -377,7 +441,7 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   Widget buildDirectionsRight(BuildContext context) {
-    return _currentPage < 3
+    return _currentPage < 4
         ? Padding(
             padding: const EdgeInsets.only(right: 42),
             child: Align(
