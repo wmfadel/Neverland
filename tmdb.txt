@@ -1,9 +1,0 @@
-api key:
-f05286ad9b97b7821731e08bc891a337
-
-image:
-https://image.tmdb.org/t/p/w500/58ANn0FgFK7eB6vUopw1MMfPyZW.jpg
-
-of genre:
-https://api.themoviedb.org/3/discover/movie?api_key=f05286ad9b97b7821731e08bc891a337&sort_by=popularity.desc&page=1&with_genres=28,16
-
