@@ -2,6 +2,7 @@ import 'language.dart';
 import 'production_company.dart';
 import 'production_country.dart';
 import 'genre.dart';
+import 'Cast.dart';
 
 class DetailedMovie {
   final bool adult;
@@ -25,6 +26,7 @@ class DetailedMovie {
   final String runtime;
   final String status;
   final String tagline;
+  final List<Cast> cast;
 
   DetailedMovie.fromJson(Map<String, dynamic> parsedJson)
       : this.adult = parsedJson['adult'] ?? false,
@@ -50,7 +52,20 @@ class DetailedMovie {
         this.tagline = parsedJson['tagline'] ?? '',
         this.title = parsedJson['title'] ?? '',
         this.vote_average = parsedJson['vote_average'].toString() ?? 0.0,
-        this.vote_count = parsedJson['vote_count'].toString() ?? -1;
+        this.vote_count = parsedJson['vote_count'].toString() ?? -1,
+  this.cast = _getCast(parsedJson['credits']['cast']) ?? [];
+
+
+
+
+  static _getCast(var jsonList) {
+    List<Cast> mList = [];
+    for (var i in jsonList) {
+      mList.add(Cast.fromJson(i));
+    }
+    return mList;
+  }
+
 
   static _getGenres(var jsonList) {
     List<Genre> mList = [];

@@ -1,14 +1,12 @@
 // library imports
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
-// files imports
 import '../providers/movies_provider.dart';
-import '../providers/detailed_movie_provider.dart';
+import '../screens/movie_screen.dart';
 import '../styles/custom_themes.dart';
-import '../screens/movies_details.dart';
 
 class MoviesPopularList extends StatefulWidget {
   @override
@@ -49,12 +47,10 @@ class _MoviesPopularListState extends State<MoviesPopularList> {
               itemCount: provider.getNPopularMovies().length,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () async{
+                  onTap: () async {
                     int id = provider.getNPopularMovies()[index].id;
-                    await Provider.of<DetailedMovieProvider>(context)
-                        .getMovieDetails(id);
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MovieDetails()));
+                        builder: (context) => MovieScreen(id)));
                   },
                   highlightColor: Theme.of(context).primaryColorDark,
                   splashColor: Theme.of(context).accentColor,

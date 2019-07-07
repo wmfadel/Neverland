@@ -25,7 +25,9 @@ class App extends StatelessWidget {
         Provider<TVProvider>.value(
           value: tvProvider,
         ),
-        ChangeNotifierProvider(builder: (_)=>detailedMovieProvider)
+        ChangeNotifierProvider.value(
+          notifier: detailedMovieProvider,
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

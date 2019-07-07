@@ -8,7 +8,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import '../providers/movies_provider.dart';
 import '../providers/detailed_movie_provider.dart';
 import '../styles/custom_themes.dart';
-import '../screens/movies_details.dart';
+import '../screens/movie_screen.dart';
 
 class MoviesTopRatedList extends StatefulWidget {
   @override
@@ -51,10 +51,8 @@ class _MoviesTopRatedListState extends State<MoviesTopRatedList> {
                 return InkWell(
                   onTap: () async{
                     int id = provider.getTopRatedMovies()[index].id;
-                    await Provider.of<DetailedMovieProvider>(context)
-                        .getMovieDetails(id);
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MovieDetails()));
+                        builder: (context) => MovieScreen(id)));
                   },
                   highlightColor: Theme.of(context).primaryColorDark,
                   splashColor: Theme.of(context).accentColor,
