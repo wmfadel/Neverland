@@ -18,8 +18,14 @@ class TVProvider extends ChangeNotifier{
   int popularPage = 0;
 
 
+  bool isLoadingTop = false;
+  List<Tv> _topRated = [];
+  int topRatedPage = 0;
+
+
   List<Tv> get airingToday => _airingToday;
   List<Tv> get popular => _popular;
+  List<Tv> get topRated => _topRated;
 
   Future<bool> getAiringTv() async{
     if (!isLoadingAiring && _airingToday.length <= 50) {
@@ -56,6 +62,26 @@ class TVProvider extends ChangeNotifier{
       }
       print(_popular.length);
       isLoadingPopular = false;
+      notifyListeners();
+      return true;
+    }
+    return true;
+  }
+
+  Future<bool> getTopRatedTv() async{
+    if (!isLoadingTop && _popular.length <= 100) {
+      isLoadingTop = true;
+      notifyListeners();
+      final String url =
+          '${_baseUrl}tv/top_rated?$_key&page=${++topRatedPage}';
+      print('top rated series url: $url');
+      http.Response response = await http.get(url);
+      var res = json.decode(response.body);
+      for (var i in res['results']) {
+        _topRated.add(Tv.fromJson(i));
+      }
+      print(_topRated.length);
+      isLoadingTop = false;
       notifyListeners();
       return true;
     }

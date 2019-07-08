@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/series_on_air.dart';
 import '../widgets/series_popular.dart';
+import '../widgets/series_top_rated.dart';
 
 class SeriesScreen extends StatefulWidget {
   final Key key;
@@ -43,6 +44,15 @@ class _SeriesScreenState extends State<SeriesScreen> {
                     fontSize: 22),
               ),
               SeriesPopular(),
+              SizedBox(height: 15),
+              Text(
+                'Top Rated Series',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22),
+              ),
+              SeriesTopRated(),
             ],
           ),
         ));
