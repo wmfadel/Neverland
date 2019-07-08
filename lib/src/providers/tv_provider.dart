@@ -33,13 +33,11 @@ class TVProvider extends ChangeNotifier{
       notifyListeners();
       final String url =
           '${_baseUrl}tv/airing_today?$_key&page=${++airingPage}';
-      print('series url: $url');
       http.Response response = await http.get(url);
       var res = json.decode(response.body);
       for (var i in res['results']) {
         _airingToday.add(Tv.fromJson(i));
       }
-      print(_airingToday.length);
       isLoadingAiring = false;
       notifyListeners();
       return true;
@@ -54,13 +52,11 @@ class TVProvider extends ChangeNotifier{
       notifyListeners();
       final String url =
           '${_baseUrl}tv/popular?$_key&page=${++popularPage}';
-      print('popular series url: $url');
       http.Response response = await http.get(url);
       var res = json.decode(response.body);
       for (var i in res['results']) {
         _popular.add(Tv.fromJson(i));
       }
-      print(_popular.length);
       isLoadingPopular = false;
       notifyListeners();
       return true;
@@ -74,13 +70,11 @@ class TVProvider extends ChangeNotifier{
       notifyListeners();
       final String url =
           '${_baseUrl}tv/top_rated?$_key&page=${++topRatedPage}';
-      print('top rated series url: $url');
       http.Response response = await http.get(url);
       var res = json.decode(response.body);
       for (var i in res['results']) {
         _topRated.add(Tv.fromJson(i));
       }
-      print(_topRated.length);
       isLoadingTop = false;
       notifyListeners();
       return true;

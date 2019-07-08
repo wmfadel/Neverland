@@ -2,7 +2,7 @@ import 'language.dart';
 import 'production_company.dart';
 import 'production_country.dart';
 import 'genre.dart';
-import 'Cast.dart';
+import 'cast.dart';
 
 class DetailedMovie {
   final bool adult;

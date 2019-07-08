@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class TrendsScreen extends StatefulWidget {
+class AccountScreen extends StatefulWidget {
   final Key key;
 
-  TrendsScreen(this.key) : super(key: key);
+  AccountScreen(this.key) : super(key: key);
 
   @override
-  _TrendsScreenState createState() => _TrendsScreenState();
+  _AccountScreenState createState() => _AccountScreenState();
 }
 
-class _TrendsScreenState extends State<TrendsScreen> {
+class _AccountScreenState extends State<AccountScreen> {
 
   double screenWidth;
   double screenHeight;

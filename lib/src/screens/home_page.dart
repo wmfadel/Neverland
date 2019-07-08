@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'movies_screen.dart';
 import 'series_screen.dart';
 import 'search_screen.dart';
-import 'trends_screen.dart';
+import 'account_screen.dart';
 import '../styles/custom_themes.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,16 +16,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // scroll state handellers
   final PageStorageKey moviesKey = PageStorageKey('movies');
-  final PageStorageKey seriesKey = PageStorageKey('series');
+  final PageStorageKey seriesKey = PageStorageKey('TV');
   final PageStorageKey searchKey = PageStorageKey('search');
-  final PageStorageKey trendsKey = PageStorageKey('trends');
+  final PageStorageKey trendsKey = PageStorageKey('Account');
   final PageStorageBucket storageBucket = PageStorageBucket();
 
   // main navigation screens
   MoviesScreen moviesScreen;
   SeriesScreen seriesScreen;
   SearchScreen searchScreen;
-  TrendsScreen trendsScreen;
+  AccountScreen trendsScreen;
   Widget currentScreen;
   int _navigationIndex = 0;
   List<Widget> screens = [];
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     moviesScreen = MoviesScreen(moviesKey);
     seriesScreen = SeriesScreen(seriesKey);
     searchScreen = SearchScreen(searchKey);
-    trendsScreen = TrendsScreen(trendsKey);
+    trendsScreen = AccountScreen(trendsKey);
     screens = [moviesScreen, seriesScreen, searchScreen, trendsScreen];
     currentScreen = screens[_navigationIndex];
   }
@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          'Series',
+          'TV',
           style: CustomThemes.textStyle,
         ),
       ),
@@ -104,11 +104,11 @@ class _HomePageState extends State<HomePage> {
       BottomNavigationBarItem(
         backgroundColor: Color(0xff1B5E20),
         icon: Icon(
-          Icons.trending_up,
+          Icons.account_circle,
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          'Trending',
+          'Account',
           style: CustomThemes.textStyle,
         ),
       ),
