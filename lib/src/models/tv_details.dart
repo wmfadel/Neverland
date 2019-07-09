@@ -58,10 +58,12 @@ class TVDetails {
         this.poster_path = json['poster_path'],
         this.status = json['status'],
         this.vote_average = json['vote_average'],
-        this.last_episode_to_air =
-            Episode.fromJson(json['last_episode_to_air']),
-        this.next_episode_to_air =
-            Episode.fromJson(json['next_episode_to_air']),
+        this.last_episode_to_air = json['last_episode_to_air'] == null
+            ? null
+            : Episode.fromJson(json['last_episode_to_air']),
+        this.next_episode_to_air = json['next_episode_to_air'] == null
+            ? null
+            : Episode.fromJson(json['next_episode_to_air']),
         this.seasons = _getSeason(json['seasons']),
         this.cast = _getCast(json['credits']['cast']);
 

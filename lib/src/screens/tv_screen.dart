@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/detailed_tv_provider.dart';
+import '../widgets/tv_pages.dart';
 
 class TVScreen extends StatelessWidget {
   final int tvId;
@@ -23,9 +24,7 @@ class TVScreen extends StatelessWidget {
               .getMovieDetails(tvId),
           builder: (context, snapshot) {
             if (snapshot.hasData)
-              return Center(
-                  child: Text(
-                      Provider.of<DetailedTvProvider>(context).tvDetails.name));
+              return TVPages();
             return CircularProgressIndicator();
           },
         ),

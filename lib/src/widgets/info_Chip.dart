@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class InfoChip extends StatelessWidget {
   final String text;
   final String value;
+  Color color;
 
-  InfoChip(this.text, this.value);
+  InfoChip(this.text, this.value, {this.color = const Color(0xffBF360C)});
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +29,8 @@ class InfoChip extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
-          color: Theme.of(context).primaryColorDark,
+          color: color,
           borderRadius: BorderRadius.circular(25)),
     );
   }
 }
-
-/*
- Container(
-        width: 50,
-        child: Text(text, style: TextStyle(color: Colors.black)),
-        padding: EdgeInsets.all(4),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(25)),
-      ),
- */

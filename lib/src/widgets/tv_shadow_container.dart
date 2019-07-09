@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ShadowContainer extends StatelessWidget {
+class TVShadowContainer extends StatelessWidget {
   double screenWidth;
 
   @override
@@ -12,13 +12,13 @@ class ShadowContainer extends StatelessWidget {
       height: 80,
       decoration: BoxDecoration(
           gradient: LinearGradient(
-        colors: <Color>[
-          Colors.transparent,
-          Theme.of(context).primaryColor,
-        ],
-        begin: AlignmentDirectional.topCenter,
-        end: AlignmentDirectional.bottomCenter,
-      )),
+            colors: <Color>[
+              Colors.transparent,
+              Colors.white,
+            ],
+            begin: AlignmentDirectional.topCenter,
+            end: AlignmentDirectional.bottomCenter,
+          )),
     );
   }
 }
