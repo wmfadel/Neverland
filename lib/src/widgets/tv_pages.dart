@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/tv_poster_page.dart';
 import '../widgets/tv_intro_page.dart';
 import '../widgets/tv_specs_page.dart';
+import '../widgets/tv_episodes.dart';
 
 class TVPages extends StatelessWidget {
   @override
@@ -14,6 +15,7 @@ class TVPages extends StatelessWidget {
           TVPosterPage(),
           TVIntroPage(),
           TVSpecsPage(),
+          TVEpisodes(),
         ],
       ),
     );

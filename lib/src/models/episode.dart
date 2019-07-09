@@ -22,10 +22,10 @@ class Episode {
   Episode.fromJson(Map<String, dynamic> json)
       : this.id = json['id'],
         this.air_date = json['air_date'],
-        this.episode_number = json['season_number'],
+        this.episode_number = json['episode_number'],
         this.name = json['name'],
         this.overview = json['overview'],
-        this.season_number = json['episode_number'],
+        this.season_number = json['season_number'],
         this.still_path = json['still_path'],
         this.vote_average = json['vote_average'];
 }
