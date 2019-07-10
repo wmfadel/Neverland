@@ -41,7 +41,7 @@ class EpisodeItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       buildTextContainer(),
-                      SizedBox(height: 10),
+                      SizedBox(height: 8),
                       buildOverviewContainer(),
                       Container(
                         width: 320,
@@ -109,8 +109,10 @@ class EpisodeItem extends StatelessWidget {
   Container buildTextContainer() {
     return Container(
       width: 300,
+      height: 60,
       child: Text(
         _episode.name,
+        maxLines: 2,
         style: TextStyle(
             color: Colors.white,
             shadows: <Shadow>[Shadow(color: Colors.blue, blurRadius: 15)],
