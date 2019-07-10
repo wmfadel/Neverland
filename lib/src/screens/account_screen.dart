@@ -23,7 +23,7 @@ class _AccountScreenState extends State<AccountScreen> {
       height: screenHeight,
       color: Color(0xff4CAF50),
       child: Center(
-        child: Text('trending Page'),
+        child: Text('Account Page'),
       ),
     );
   }
