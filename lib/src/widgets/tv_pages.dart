@@ -5,6 +5,7 @@ import '../widgets/tv_intro_page.dart';
 import '../widgets/tv_specs_page.dart';
 import '../widgets/tv_episodes.dart';
 import '../widgets/tv_seasons_page.dart';
+import '../widgets/tv_cast_page.dart';
 
 class TVPages extends StatelessWidget {
   @override
@@ -18,6 +19,7 @@ class TVPages extends StatelessWidget {
           TVSpecsPage(),
           TVEpisodes(),
           TVSeasonsPage(),
+          TVCastPage(),
         ],
       ),
     );
