@@ -10,7 +10,7 @@ import 'providers/movies_provider.dart';
 import 'providers/detailed_movie_provider.dart';
 import 'providers/tv_provider.dart';
 import 'providers/detailed_tv_provider.dart';
-import 'providers/authntication.dart';
+import 'providers/authentication.dart';
 
 class App extends StatelessWidget {
   // initializing providers

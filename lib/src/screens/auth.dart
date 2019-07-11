@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
@@ -5,7 +6,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../providers/authntication.dart';
+import '../providers/authentication.dart';
+import '../models/auth_error.dart';
+import 'home_page.dart';
+import '../utils/dialogs.dart';
 
 class Auth extends StatefulWidget {
   @override
@@ -14,11 +18,12 @@ class Auth extends StatefulWidget {
 
 class _AuthState extends State<Auth> {
   Authentication _authentication;
-
+  Dialogs _dialogs = Dialogs();
   double screenWidth;
   double screenHeight;
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  bool isPassHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +45,7 @@ class _AuthState extends State<Auth> {
                 child: Container(
                   height: 280,
                   child: Image.asset(
-                      'assets/pics/intro/${Random().nextInt(10) + 1}.png'),
+                      'assets/pics/intro/${Random().nextInt(25) + 1}.png'),
                 ),
               ),
               Container(
@@ -76,7 +81,20 @@ class _AuthState extends State<Auth> {
                 elevation: 15,
                 color: Color(0xff081c24),
                 minWidth: 150,
-                onPressed: () {}),
+                onPressed: () async {
+                  _authentication.name = emailController.text;
+                  _authentication.pass = passController.text;
+                  _authentication.login().then((result) {
+                    print('response type ${result.runtimeType}');
+                    if (result is bool) {
+                      if (result)
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => HomePage()));
+                    } else if (result is AuthError) {
+                      _dialogs.showLoginError(context, result);
+                    }
+                  });
+                }),
             FlatButton(
                 onPressed: () async {
                   signupNewUser();
@@ -93,7 +111,17 @@ class _AuthState extends State<Auth> {
     return TextField(
       maxLines: 1,
       controller: passController,
+      cursorColor: Color(0xff01d277),
+      obscureText: isPassHidden,
       decoration: InputDecoration(
+          suffixIcon: IconButton(
+              icon:
+                  Icon(isPassHidden ? Icons.visibility_off : Icons.visibility),
+              onPressed: () {
+                setState(() {
+                  isPassHidden = !isPassHidden;
+                });
+              }),
           hintText: 'Your Password',
           labelText: 'Password',
           border: OutlineInputBorder()),
@@ -104,10 +132,11 @@ class _AuthState extends State<Auth> {
     return TextField(
       maxLines: 1,
       controller: emailController,
+      cursorColor: Color(0xff01d277),
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-          hintText: 'Email Address',
-          labelText: 'Email',
+          hintText: 'User Name',
+          labelText: 'Name',
           border: OutlineInputBorder()),
     );
   }
