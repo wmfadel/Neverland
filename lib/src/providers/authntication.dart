@@ -18,6 +18,8 @@ class Authentication with ChangeNotifier {
   RequestTokenError get requestTokenError => _requestTokenError;
 
   Future<bool> getRequestToken() async {
+    if(_requestToken !=null)
+      return true;
     String url = _baseUrl + 'authentication/token/new?$_key';
     print('token url : $url');
     http.Response response = await http.get(url);

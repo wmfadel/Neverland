@@ -28,7 +28,8 @@ dependencies:
   url_launcher: ^4.2.0+3
   flutter_spinkit: ^3.1.0
   auto_size_text: ^1.1.2
-  material_search: ^0.2.8
+  webview_flutter: ^0.3.9+1
+  flutter_svg: ^0.13.0+2
 
 
 dev_dependencies:
@@ -48,8 +49,18 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+   - assets/pics/tmdb.svg
+   - assets/pics/intro/1.png
+   - assets/pics/intro/2.png
+   - assets/pics/intro/3.png
+   - assets/pics/intro/4.png
+   - assets/pics/intro/5.png
+   - assets/pics/intro/6.png
+   - assets/pics/intro/7.png
+   - assets/pics/intro/8.png
+   - assets/pics/intro/9.png
+   - assets/pics/intro/10.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
