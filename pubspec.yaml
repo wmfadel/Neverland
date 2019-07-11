@@ -28,7 +28,6 @@ dependencies:
   url_launcher: ^4.2.0+3
   flutter_spinkit: ^3.1.0
   auto_size_text: ^1.1.2
-  webview_flutter: ^0.3.9+1
   flutter_svg: ^0.13.0+2
 
 
