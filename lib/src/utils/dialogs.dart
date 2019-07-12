@@ -20,4 +20,24 @@ class Dialogs {
           );
         });
   }
+
+
+  showTokenError(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) {
+          return AlertDialog(
+            title: Text('Error 404'),
+            content: Text('No request token found try again later'),
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Ok'))
+            ],
+          );
+        });
+  }
 }

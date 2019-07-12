@@ -26,10 +26,16 @@ class _AuthState extends State<Auth> {
   bool isPassHidden = true;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     _authentication = Provider.of<Authentication>(context, listen: false);
     _authentication.getRequestToken();
+  }
 
+
+  @override
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     screenWidth = size.width;
     screenHeight = size.height;
@@ -81,22 +87,11 @@ class _AuthState extends State<Auth> {
                 elevation: 15,
                 color: Color(0xff081c24),
                 minWidth: 150,
-                onPressed: () async {
-                  _authentication.name = emailController.text;
-                  _authentication.pass = passController.text;
-                  _authentication.login().then((result) {
-                    print('response type ${result.runtimeType}');
-                    if (result is bool) {
-                      if (result)
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => HomePage()));
-                    } else if (result is AuthError) {
-                      _dialogs.showLoginError(context, result);
-                    }
-                  });
+                onPressed: () {
+                  login();
                 }),
             FlatButton(
-                onPressed: () async {
+                onPressed: () {
                   signupNewUser();
                 },
                 child: Text('don\'t have account!! Signup')),
@@ -106,6 +101,8 @@ class _AuthState extends State<Auth> {
       ),
     );
   }
+
+
 
   TextField buildPasswordTextField() {
     return TextField(
@@ -155,14 +152,25 @@ class _AuthState extends State<Auth> {
     );
   }
 
-  void redirectUser() async {
-    String url =
-        'https://www.themoviedb.org/authenticate/${_authentication.requestToken.request_token}';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+
+  void login(){
+    _authentication.name = emailController.text;
+    _authentication.pass = passController.text;
+    _authentication.login().then((result) {
+      print('response type ${result.runtimeType}');
+      if (result is bool) {
+        if (result){
+          _authentication.createSession();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => HomePage()));
+        }else{
+          // show dialog no token found
+          _dialogs.showTokenError(context);
+        }
+      } else if (result is AuthError) {
+        _dialogs.showLoginError(context, result);
+      }
+    });
   }
 
   void signupNewUser() async {

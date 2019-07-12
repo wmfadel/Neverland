@@ -15,6 +15,7 @@ class Authentication with ChangeNotifier {
   RequestToken _requestToken;
   RequestTokenError _requestTokenError;
   AuthModel _authModel;
+  String _sessionId;
 
   String _name;
   String _pass;
@@ -32,6 +33,8 @@ class Authentication with ChangeNotifier {
   String get pass => _pass;
 
   set pass(String value) => _pass = value;
+
+  String get sessionId => _sessionId;
 
   Future<bool> getRequestToken() async {
     if (_requestToken != null) return true;
@@ -53,18 +56,32 @@ class Authentication with ChangeNotifier {
   }
 
   Future<dynamic> login() async {
+    if (requestToken == null) return false;
     String url = _baseUrl +
         'authentication/token/validate_with_login?$_key&username=$_name&password=$_pass&request_token=${_requestToken.request_token}';
     print('token url : $url');
     http.Response response = await http.post(url);
     print(' response ${response.body.toString()}');
     Map<String, dynamic> res = json.decode(response.body);
-    if(res.containsKey('success') && res['success']){
+    if (res.containsKey('success') && res['success']) {
       _authModel = AuthModel.fromJson(res);
       return true;
-    }else{
+    } else {
       return AuthError.fromJson(res);
     }
+  }
 
+  Future<bool> createSession() async {
+    String url = _baseUrl + 'authentication/session/new?$_key&request_token=${requestToken.request_token}';
+    print('session url : $url');
+    http.Response response = await http.get(url);
+    print('session response ${response.body.toString()}');
+    Map<String, dynamic> res = json.decode(response.body);
+    if (res.containsKey('success') && res['success']) {
+      _sessionId = res['session_id'];
+      print('got session $sessionId');
+      return true;
+    }
+    return false;
   }
 }
