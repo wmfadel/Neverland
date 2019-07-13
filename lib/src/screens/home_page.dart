@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       BottomNavigationBarItem(
-        backgroundColor: Color(0xff1B5E20),
+        backgroundColor: Colors.white30,
         icon: Icon(
           Icons.account_circle,
           color: Theme.of(context).accentColor,

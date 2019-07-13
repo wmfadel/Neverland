@@ -45,7 +45,7 @@ class _SeriesTopRatedState extends State<SeriesTopRated> {
             height: 310,
             width: screenWidth,
             child: ListView.builder(
-              key: PageStorageKey('providerpopulartv'),
+              key: PageStorageKey('providertoprated'),
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,

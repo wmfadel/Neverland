@@ -21,7 +21,7 @@ class _AccountScreenState extends State<AccountScreen> {
     return Container(
       width: screenWidth,
       height: screenHeight,
-      color: Color(0xff4CAF50),
+      color: Colors.white,
       child: Center(
         child: Text('Account Page'),
       ),

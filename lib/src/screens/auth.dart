@@ -30,7 +30,7 @@ class _AuthState extends State<Auth> {
     // TODO: implement initState
     super.initState();
     _authentication = Provider.of<Authentication>(context, listen: false);
-    _authentication.getRequestToken();
+
   }
 
 
@@ -87,7 +87,7 @@ class _AuthState extends State<Auth> {
                 elevation: 15,
                 color: Color(0xff081c24),
                 minWidth: 150,
-                onPressed: () {
+                onPressed: () async{
                   login();
                 }),
             FlatButton(
@@ -153,9 +153,10 @@ class _AuthState extends State<Auth> {
   }
 
 
-  void login(){
+  void login() async{
     _authentication.name = emailController.text;
     _authentication.pass = passController.text;
+    await _authentication.getRequestToken();
     _authentication.login().then((result) {
       print('response type ${result.runtimeType}');
       if (result is bool) {
