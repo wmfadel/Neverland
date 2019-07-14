@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -29,7 +27,6 @@ class _AuthState extends State<Auth> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _authentication = Provider.of<Authentication>(context, listen: false);
 _accountProvider = Provider.of<AccountProvider>(context, listen: false);

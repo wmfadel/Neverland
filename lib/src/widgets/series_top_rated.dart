@@ -17,7 +17,6 @@ class _SeriesTopRatedState extends State<SeriesTopRated> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=

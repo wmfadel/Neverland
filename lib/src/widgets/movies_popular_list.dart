@@ -18,7 +18,6 @@ class _MoviesPopularListState extends State<MoviesPopularList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // fetch more movies when the list reaches its end
     playingController.addListener(() {

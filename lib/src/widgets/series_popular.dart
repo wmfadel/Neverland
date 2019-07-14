@@ -17,7 +17,6 @@ class _SeriesPopularState extends State<SeriesPopular> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=

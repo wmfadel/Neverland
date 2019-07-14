@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // files imports
-import 'screens/home_page.dart';
 import 'screens/auth.dart';
 import 'styles/custom_themes.dart';
 import 'providers/movies_provider.dart';
@@ -15,12 +14,12 @@ import 'providers/account_provider.dart';
 
 class App extends StatelessWidget {
   // initializing providers
-  MoviesProvider moviesProvider = MoviesProvider();
-  DetailedMovieProvider detailedMovieProvider = DetailedMovieProvider();
-  TVProvider tvProvider = TVProvider();
-  DetailedTvProvider detailedTvProvider = DetailedTvProvider();
-  Authentication authentication = Authentication();
-  AccountProvider accountProvider = AccountProvider();
+  final MoviesProvider moviesProvider = MoviesProvider();
+  final DetailedMovieProvider detailedMovieProvider = DetailedMovieProvider();
+  final TVProvider tvProvider = TVProvider();
+  final DetailedTvProvider detailedTvProvider = DetailedTvProvider();
+  final Authentication authentication = Authentication();
+  final AccountProvider accountProvider = AccountProvider();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

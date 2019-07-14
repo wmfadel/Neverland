@@ -13,14 +13,18 @@ class AccountProvider with ChangeNotifier {
   final String _key = 'api_key=f05286ad9b97b7821731e08bc891a337';
 
   int favoritePage = 0;
+  int favoriteTvPage =0;
 
   // providers data
   Account _account;
   List<Movie> _favoriteMovies = [];
+  List<Tv> _favoriteTv = [];
 
   // provider getters
   Account get account => _account;
   List<Movie> get favoriteMovies => _favoriteMovies;
+  List<Tv> get favoriteTv => _favoriteTv;
+
 
   Future<Null> getAccount(String sessionId) async {
     String url = _baseUrl + 'account?$_key&session_id=$sessionId';
@@ -33,12 +37,23 @@ class AccountProvider with ChangeNotifier {
 
   Future<bool> getFavoriteMovies(String sessionId) async {
     String url = _baseUrl +
-        'account/${_account.id}/favorite/movies?$_key&session_id=$sessionId&sort_by=created_at.desc&page=${++favoritePage}';
+        'account/${_account.id}/favorite/movies?$_key&session_id=$sessionId&sort_by=created_at.desc&page=${++favoriteTvPage}';
     print('accountFavorite url $url');
     http.Response response = await http.get(url);
     Map<String, dynamic> res = json.decode(response.body);
     for(var i in res['results'])
       _favoriteMovies.add(Movie.fromJson(i));
+    return true;
+  }
+
+  Future<bool> getFavoriteTvs(String sessionId) async {
+    String url = _baseUrl +
+        'account/${_account.id}/favorite/tv?$_key&session_id=$sessionId&sort_by=created_at.desc&page=${++favoritePage}';
+    print('accountFavorite tv url $url');
+    http.Response response = await http.get(url);
+    Map<String, dynamic> res = json.decode(response.body);
+    for(var i in res['results'])
+      _favoriteTv.add(Tv.fromJson(i));
     return true;
   }
 }

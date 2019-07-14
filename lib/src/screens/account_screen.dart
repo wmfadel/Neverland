@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../styles/custom_themes.dart';
 import '../widgets/account_favorite_movies.dart';
+import '../widgets/account_favorite_tv.dart';
 
 class AccountScreen extends StatefulWidget {
   final Key key;
@@ -12,9 +13,9 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-
   double screenWidth;
   double screenHeight;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -28,11 +29,14 @@ class _AccountScreenState extends State<AccountScreen> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(10),
-            child: Text('Movies', style: CustomThemes.headerStyle),
+            child: Text('Favorite Movies', style: CustomThemes.headerStyle),
           ),
-          Container(
-              height: 310,
-              child: AccountFavoriteMovies()),
+          Container(height: 310, child: AccountFavoriteMovies()),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text('Favorite Tv shows', style: CustomThemes.headerStyle),
+          ),
+          Container(height: 310, child: AccountFavoriteTv()),
         ],
       ),
     );

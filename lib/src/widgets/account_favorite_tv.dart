@@ -1,56 +1,57 @@
-// library imports
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-// files imports
-import '../providers/movies_provider.dart';
+import '../providers/account_provider.dart';
+import '../providers/authentication.dart';
+import '../screens/tv_screen.dart';
 import '../styles/custom_themes.dart';
-import '../screens/movie_screen.dart';
 
-class MoviesTopRatedList extends StatefulWidget {
+class AccountFavoriteTv extends StatefulWidget {
   @override
-  _MoviesTopRatedListState createState() => _MoviesTopRatedListState();
+  _AccountFavoriteTvState createState() => _AccountFavoriteTvState();
 }
 
-class _MoviesTopRatedListState extends State<MoviesTopRatedList> {
-  final ScrollController playingController = ScrollController();
+class _AccountFavoriteTvState extends State<AccountFavoriteTv> {
+  final ScrollController scrollController = ScrollController();
+  Authentication authentication;
 
   @override
   void initState() {
     super.initState();
+    authentication = Provider.of<Authentication>(context, listen: false);
     // fetch more movies when the list reaches its end
-    playingController.addListener(() {
-      if (playingController.position.pixels >=
-          playingController.position.maxScrollExtent)
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent)
         setState(() {
-          Provider.of<MoviesProvider>(context).fetchTopRatedMovies();
+          Provider.of<AccountProvider>(context)
+              .getFavoriteTvs(authentication.sessionId);
         });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    MoviesProvider provider = Provider.of<MoviesProvider>(context);
-
+    AccountProvider provider = Provider.of<AccountProvider>(context);
     return FutureBuilder(
-        future: provider.fetchTopRatedMovies(),
+        future: provider.getFavoriteTvs(authentication.sessionId),
         builder: (BuildContext context, AsyncSnapshot<bool> snapShot) {
-          if (provider.getTopRatedMovies().length > 0 &&
+          if (provider.favoriteTv.length > 0 &&
               snapShot.data != null &&
               snapShot.data) {
             return ListView.builder(
-              key: PageStorageKey('providertoprated'),
-              controller: playingController,
+              key: PageStorageKey('accountproviderpopulartv'),
+              controller: scrollController,
               scrollDirection: Axis.horizontal,
-              itemCount: provider.getTopRatedMovies().length,
+              itemCount: provider.favoriteTv.length,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () async{
-                    int id = provider.getTopRatedMovies()[index].id;
+                  onTap: () async {
+                    int id = provider.favoriteTv[index].id;
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MovieScreen(id)));
+                        builder: (context) => TVScreen(id)));
                   },
                   highlightColor: Theme.of(context).primaryColorDark,
                   splashColor: Theme.of(context).accentColor,
@@ -64,7 +65,7 @@ class _MoviesTopRatedListState extends State<MoviesTopRatedList> {
                           height: 250,
                           margin: EdgeInsets.symmetric(horizontal: 8),
                           child: Image.network(
-                            'https://image.tmdb.org/t/p/w500/${provider.getTopRatedMovies()[index].poster_path}',
+                            'https://image.tmdb.org/t/p/w500/${provider.favoriteTv[index].poster_path}',
                             width: 170,
                             height: 250,
                             fit: BoxFit.fill,
@@ -76,7 +77,7 @@ class _MoviesTopRatedListState extends State<MoviesTopRatedList> {
                           width: 170,
                           height: 40,
                           child: AutoSizeText(
-                            provider.getTopRatedMovies()[index].title,
+                            provider.favoriteTv[index].name,
                             textAlign: TextAlign.center,
                             style: CustomThemes.infoStyle,
                           ))
@@ -88,15 +89,14 @@ class _MoviesTopRatedListState extends State<MoviesTopRatedList> {
           }
 
           if (snapShot.connectionState != ConnectionState.done ||
-              provider.getTopRatedMovies().length < 5) {
+              provider.favoriteTv.length < 5) {
             // still loading data
-            if (provider.getTopRatedMovies().length < 5)
-              return Center(
-                child: SpinKitWave(
-                  color: Theme.of(context).accentColor,
-                  size: 35,
-                ),
-              );
+            return Center(
+              child: SpinKitWave(
+                color: Theme.of(context).accentColor,
+                size: 35,
+              ),
+            );
           }
           return Container();
         });
@@ -104,7 +104,7 @@ class _MoviesTopRatedListState extends State<MoviesTopRatedList> {
 
   @override
   void dispose() {
-    playingController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 }

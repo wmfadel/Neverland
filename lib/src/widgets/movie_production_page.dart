@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/detailed_movie_provider.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import '../styles/custom_themes.dart';
 import '../models/production_country.dart';
 import '../models/production_company.dart';
