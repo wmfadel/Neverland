@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../providers/authentication.dart';
+import '../providers/account_provider.dart';
 import '../models/auth_error.dart';
 import 'home_page.dart';
 import '../utils/dialogs.dart';
@@ -18,6 +19,7 @@ class Auth extends StatefulWidget {
 
 class _AuthState extends State<Auth> {
   Authentication _authentication;
+  AccountProvider _accountProvider;
   Dialogs _dialogs = Dialogs();
   double screenWidth;
   double screenHeight;
@@ -30,7 +32,7 @@ class _AuthState extends State<Auth> {
     // TODO: implement initState
     super.initState();
     _authentication = Provider.of<Authentication>(context, listen: false);
-
+_accountProvider = Provider.of<AccountProvider>(context, listen: false);
   }
 
 
@@ -161,7 +163,9 @@ class _AuthState extends State<Auth> {
       print('response type ${result.runtimeType}');
       if (result is bool) {
         if (result){
-          _authentication.createSession();
+          _authentication.createSession().then((_){
+            _accountProvider.getAccount(_authentication.sessionId);
+          });
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => HomePage()));
         }else{

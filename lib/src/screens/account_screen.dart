@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../styles/custom_themes.dart';
+import '../widgets/account_favorite_movies.dart';
 
 class AccountScreen extends StatefulWidget {
   final Key key;
@@ -22,8 +24,16 @@ class _AccountScreenState extends State<AccountScreen> {
       width: screenWidth,
       height: screenHeight,
       color: Colors.white,
-      child: Center(
-        child: Text('Account Page'),
+      child: ListView(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text('Movies', style: CustomThemes.headerStyle),
+          ),
+          Container(
+              height: 310,
+              child: AccountFavoriteMovies()),
+        ],
       ),
     );
   }

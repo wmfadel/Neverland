@@ -33,11 +33,14 @@ class TVProvider extends ChangeNotifier{
       notifyListeners();
       final String url =
           '${_baseUrl}tv/airing_today?$_key&page=${++airingPage}';
+      print('tv air url $url');
       http.Response response = await http.get(url);
+      print('tv air response ${response.body}');
       var res = json.decode(response.body);
       for (var i in res['results']) {
         _airingToday.add(Tv.fromJson(i));
       }
+      print('tv air count ${_airingToday.length}');
       isLoadingAiring = false;
       notifyListeners();
       return true;

@@ -11,6 +11,7 @@ import 'providers/detailed_movie_provider.dart';
 import 'providers/tv_provider.dart';
 import 'providers/detailed_tv_provider.dart';
 import 'providers/authentication.dart';
+import 'providers/account_provider.dart';
 
 class App extends StatelessWidget {
   // initializing providers
@@ -19,6 +20,7 @@ class App extends StatelessWidget {
   TVProvider tvProvider = TVProvider();
   DetailedTvProvider detailedTvProvider = DetailedTvProvider();
   Authentication authentication = Authentication();
+  AccountProvider accountProvider = AccountProvider();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -37,6 +39,9 @@ class App extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           notifier: authentication,
+        ),
+        ChangeNotifierProvider.value(
+          notifier: accountProvider,
         ),
       ],
       child: MaterialApp(
