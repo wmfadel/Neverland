@@ -7,7 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../providers/authentication.dart';
 import '../providers/account_provider.dart';
 import '../models/auth_error.dart';
+
 import 'home_page.dart';
+import '../widgets/loading_progress.dart';
 import '../utils/dialogs.dart';
 
 class Auth extends StatefulWidget {
@@ -23,15 +25,18 @@ class _AuthState extends State<Auth> {
   double screenHeight;
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  int imageId = 1;
   bool isPassHidden = true;
+  bool isLoading = false;
+  String loadingMessage = '';
 
   @override
   void initState() {
     super.initState();
     _authentication = Provider.of<Authentication>(context, listen: false);
-_accountProvider = Provider.of<AccountProvider>(context, listen: false);
+    _accountProvider = Provider.of<AccountProvider>(context, listen: false);
+    imageId = Random().nextInt(25) + 1;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,7 @@ _accountProvider = Provider.of<AccountProvider>(context, listen: false);
                 child: Container(
                   height: 280,
                   child: Image.asset(
-                      'assets/pics/intro/${Random().nextInt(25) + 1}.png'),
+                      'assets/pics/intro/$imageId.png'),
                 ),
               ),
               Container(
@@ -59,6 +64,7 @@ _accountProvider = Provider.of<AccountProvider>(context, listen: false);
                 color: Color(0xff01d277).withOpacity(0.4),
               ),
               buildInteractiveContent(),
+              isLoading ? LoadingProgress(loadingMessage) : Container()
             ],
           )),
     );
@@ -86,8 +92,8 @@ _accountProvider = Provider.of<AccountProvider>(context, listen: false);
                 elevation: 15,
                 color: Color(0xff081c24),
                 minWidth: 150,
-                onPressed: () async{
-                  login();
+                onPressed: isLoading?null:() async {
+                  authenticationLogic();
                 }),
             FlatButton(
                 onPressed: () {
@@ -100,8 +106,6 @@ _accountProvider = Provider.of<AccountProvider>(context, listen: false);
       ),
     );
   }
-
-
 
   TextField buildPasswordTextField() {
     return TextField(
@@ -152,27 +156,53 @@ _accountProvider = Provider.of<AccountProvider>(context, listen: false);
   }
 
 
-  void login() async{
+  void authenticationLogic() async{
+    setState(() {
+      isLoading = true;
+      loadingMessage = 'Getting new Auth Token';
+    });
     _authentication.name = emailController.text;
     _authentication.pass = passController.text;
     await _authentication.getRequestToken();
-    _authentication.login().then((result) {
-      print('response type ${result.runtimeType}');
-      if (result is bool) {
-        if (result){
-          _authentication.createSession().then((_){
-            _accountProvider.getAccount(_authentication.sessionId);
-          });
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => HomePage()));
-        }else{
-          // show dialog no token found
-          _dialogs.showTokenError(context);
-        }
-      } else if (result is AuthError) {
-        _dialogs.showLoginError(context, result);
-      }
+    var logResult;
+    setState(() {
+      loadingMessage = 'got Token, Logging in';
     });
+    await _authentication.login().then((result) {
+      logResult = result;
+    });
+    if (logResult is bool) {
+      if (logResult) {
+        setState(() {
+          loadingMessage = 'Loggend in, creating session';
+        });
+        await _authentication.createSession();
+        setState(() {
+          loadingMessage = 'created session, getting user account';
+        });
+        await _accountProvider.getAccount(_authentication.sessionId);
+        setState(() {
+          loadingMessage = 'got user account, getting user preferences';
+        });
+        await _accountProvider.getFavoriteMovies(_authentication.sessionId);
+        await _accountProvider.getFavoriteTvs(_authentication.sessionId);
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()));
+      } else {
+        // show dialog no token found
+        setState(() {
+          isLoading = false;
+          loadingMessage = '';
+        });
+        _dialogs.showTokenError(context);
+      }
+    } else if (logResult is AuthError) {
+      setState(() {
+        isLoading = false;
+        loadingMessage = '';
+      });
+      _dialogs.showLoginError(context, logResult);
+    }
   }
 
   void signupNewUser() async {
