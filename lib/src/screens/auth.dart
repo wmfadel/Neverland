@@ -163,7 +163,14 @@ class _AuthState extends State<Auth> {
     });
     _authentication.name = emailController.text;
     _authentication.pass = passController.text;
-    await _authentication.getRequestToken();
+    bool result = await _authentication.getRequestToken();
+    if(!result){
+      setState(() {
+        print('is something changing here');
+        isLoading = false;
+        loadingMessage = '';
+      });
+    }
     var logResult;
     setState(() {
       loadingMessage = 'got Token, Logging in';

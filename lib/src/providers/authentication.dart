@@ -37,10 +37,15 @@ class Authentication with ChangeNotifier {
   String get sessionId => _sessionId;
 
   Future<bool> getRequestToken() async {
+    bool isError = false;
     if (_requestToken != null) return true;
     String url = _baseUrl + 'authentication/token/new?$_key';
     print('token url : $url');
-    http.Response response = await http.get(url);
+    http.Response response = await http.get(url).catchError((err) {
+      if(err != null)
+        isError = true;
+    });
+    if(isError) return false;
     print(response.body.toString());
     var res = json.decode(response.body);
     if (res['success']) {
@@ -72,7 +77,8 @@ class Authentication with ChangeNotifier {
   }
 
   Future<bool> createSession() async {
-    String url = _baseUrl + 'authentication/session/new?$_key&request_token=${requestToken.request_token}';
+    String url = _baseUrl +
+        'authentication/session/new?$_key&request_token=${requestToken.request_token}';
     print('session url : $url');
     http.Response response = await http.get(url);
     print('session response ${response.body.toString()}');
