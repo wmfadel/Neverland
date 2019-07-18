@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import '../models/account.dart';
 import '../models/movie.dart';
 import '../models/tv.dart';
+import '../enums/media_type.dart';
 
 class AccountProvider with ChangeNotifier {
   final String _baseUrl = 'https://api.themoviedb.org/3/';
@@ -37,6 +38,7 @@ class AccountProvider with ChangeNotifier {
   }
 
   Future<bool> getFavoriteMovies(String sessionId) async {
+    if (_favoriteMovies.length <= 0) return true;
     bool isLoaded = false;
     do {
       String url = _baseUrl +
@@ -51,6 +53,7 @@ class AccountProvider with ChangeNotifier {
   }
 
   Future<bool> getFavoriteTvs(String sessionId) async {
+    if (_favoriteTv.length <= 0) return true;
     bool isLoaded = false;
 
     do {
@@ -65,4 +68,54 @@ class AccountProvider with ChangeNotifier {
 
     return true;
   }
-}
+
+  Future<dynamic> changeFavoriteMedia(
+      {@required String sessionId,
+      Movie movie,
+      Tv tv,
+      @required MediaType mediaType}) async {
+    // preparing request parameters
+    bool isFavorite = false;
+    if (mediaType == MediaType.Movie) {
+      isFavorite = _favoriteMovies.contains(movie);
+    } else if (mediaType == MediaType.Tv) {
+      isFavorite = _favoriteTv.contains(tv);
+    } else {
+      isFavorite = false;
+    }
+
+    // building request
+    String url = _baseUrl +
+        'account/${_account.id}/favorite?$_key&session_id=$sessionId';
+    Map<String, dynamic> requestBody = {
+      'media_type': mediaType.toString(),
+      'media_id': mediaType == MediaType.Movie ? 'movie' : 'tv',
+      'favorite': !isFavorite
+    };
+
+    // requesting/parsing data
+    http.Response response =
+        await http.post(url, body: json.encode(requestBody));
+    print('this is favorite change response ${response.body.toString()}');
+    Map<String, dynamic> res = json.decode(response.body);
+
+    // handling responses
+    if (res.containsKey('status_code') && res['status_code'] == 12) {
+      // status changed on server, change local status
+      switch (mediaType) {
+        case MediaType.Movie:
+          !isFavorite
+              ? _favoriteMovies.remove(movie)
+              : _favoriteMovies.add(movie);
+          break;
+        case MediaType.Tv:
+          !isFavorite ? _favoriteTv.remove(tv) : _favoriteTv.add(tv);
+          break;
+      }
+      return true;
+    } else {
+      return res['status_message'];
+    }
+  } // end of changeFavoriteMedia
+
+} // end of class
