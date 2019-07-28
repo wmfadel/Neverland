@@ -29,6 +29,7 @@ dependencies:
   flutter_spinkit: ^3.1.0
   auto_size_text: ^1.1.2
   flutter_svg: ^0.13.0+2
+  flare_flutter: ^1.5.5
 
 
 dev_dependencies:
@@ -75,6 +76,7 @@ flutter:
    - assets/pics/intro/23.png
    - assets/pics/intro/24.png
    - assets/pics/intro/25.png
+   - assets/flare/human_animation.flr
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

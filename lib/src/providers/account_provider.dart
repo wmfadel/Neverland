@@ -38,7 +38,7 @@ class AccountProvider with ChangeNotifier {
   }
 
   Future<bool> getFavoriteMovies(String sessionId) async {
-    if (_favoriteMovies.length <= 0) return true;
+    if (_favoriteMovies.length > 0) return true;
     bool isLoaded = false;
     do {
       String url = _baseUrl +
@@ -53,7 +53,7 @@ class AccountProvider with ChangeNotifier {
   }
 
   Future<bool> getFavoriteTvs(String sessionId) async {
-    if (_favoriteTv.length <= 0) return true;
+    if (_favoriteTv.length > 0) return true;
     bool isLoaded = false;
 
     do {
@@ -117,5 +117,19 @@ class AccountProvider with ChangeNotifier {
       return res['status_message'];
     }
   } // end of changeFavoriteMedia
+
+
+    bool isFavoriteMovie(Movie movie){
+    if(_favoriteMovies == null || _favoriteMovies.isEmpty)
+      return false;
+      return _favoriteMovies.contains(movie);
+    }
+
+
+  bool isFavoriteTv(Tv tv){
+    if(_favoriteTv == null || _favoriteTv.isEmpty)
+      return false;
+    return _favoriteTv.contains(tv);
+  }
 
 } // end of class
