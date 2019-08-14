@@ -11,7 +11,7 @@ import '../models/movie.dart';
 
 class MoviesProvider with ChangeNotifier {
   final String _baseUrl = 'https://api.themoviedb.org/3/';
-  final String _key = 'api_key=f05286ad9b97b7821731e08bc891a337';
+  final String _key = 'api_key=ADD_YOUR_OWN_KEY';
   int _playingPage = 0;
   bool isLoadingNowPlaying = false;
   int _popularPage = 0;
