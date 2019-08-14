@@ -11,7 +11,7 @@ import '../enums/media_type.dart';
 
 class AccountProvider with ChangeNotifier {
   final String _baseUrl = 'https://api.themoviedb.org/3/';
-  final String _key = 'api_key=f05286ad9b97b7821731e08bc891a337';
+  final String _key = 'api_key=ADD_YOUR_OWN_KEY';
 
   int favoritePage = 0;
   int favoriteTvPage = 0;
