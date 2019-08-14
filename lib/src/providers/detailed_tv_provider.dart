@@ -8,7 +8,7 @@ import '../models/tv_details.dart';
 
 class DetailedTvProvider with ChangeNotifier {
   final String _baseUrl = 'https://api.themoviedb.org/3/';
-  final String _key = 'api_key=f05286ad9b97b7821731e08bc891a337';
+  final String _key = 'api_key=ADD_YOUR_OWN_KEY';
   bool isLoading = false;
   TVDetails _tvDetails;
 
