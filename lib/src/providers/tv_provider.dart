@@ -8,7 +8,7 @@ import '../models/tv.dart';
 
 class TVProvider extends ChangeNotifier{
   final String _baseUrl = 'https://api.themoviedb.org/3/';
-  final String _key = 'api_key=f05286ad9b97b7821731e08bc891a337';
+  final String _key = 'api_key=ADD_YOUR_OWN_KEY';
   bool isLoadingAiring = false;
   List<Tv> _airingToday = [];
   int airingPage = 0;
