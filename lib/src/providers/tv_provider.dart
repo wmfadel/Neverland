@@ -5,10 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/tv.dart';
+import '../constants.dart';
 
 class TVProvider extends ChangeNotifier{
-  final String _baseUrl = 'https://api.themoviedb.org/3/';
-  final String _key = 'api_key=ADD_YOUR_OWN_KEY';
   bool isLoadingAiring = false;
   List<Tv> _airingToday = [];
   int airingPage = 0;
@@ -32,7 +31,7 @@ class TVProvider extends ChangeNotifier{
       isLoadingAiring = true;
       notifyListeners();
       final String url =
-          '${_baseUrl}tv/airing_today?$_key&page=${++airingPage}';
+          '${Constants.baseUrl}tv/airing_today?${Constants.key}&page=${++airingPage}';
       print('tv air url $url');
       http.Response response = await http.get(url);
       print('tv air response ${response.body}');
@@ -54,7 +53,7 @@ class TVProvider extends ChangeNotifier{
       isLoadingPopular = true;
       notifyListeners();
       final String url =
-          '${_baseUrl}tv/popular?$_key&page=${++popularPage}';
+          '${Constants.baseUrl}tv/popular?${Constants.key}&page=${++popularPage}';
       http.Response response = await http.get(url);
       var res = json.decode(response.body);
       for (var i in res['results']) {
@@ -72,7 +71,7 @@ class TVProvider extends ChangeNotifier{
       isLoadingTop = true;
       notifyListeners();
       final String url =
-          '${_baseUrl}tv/top_rated?$_key&page=${++topRatedPage}';
+          '${Constants.baseUrl}tv/top_rated?${Constants.key}&page=${++topRatedPage}';
       http.Response response = await http.get(url);
       var res = json.decode(response.body);
       for (var i in res['results']) {

@@ -8,11 +8,9 @@ import '../models/account.dart';
 import '../models/movie.dart';
 import '../models/tv.dart';
 import '../enums/media_type.dart';
+import '../constants.dart';
 
 class AccountProvider with ChangeNotifier {
-  final String _baseUrl = 'https://api.themoviedb.org/3/';
-  final String _key = 'api_key=ADD_YOUR_OWN_KEY';
-
   int favoritePage = 0;
   int favoriteTvPage = 0;
 
@@ -29,7 +27,7 @@ class AccountProvider with ChangeNotifier {
   List<Tv> get favoriteTv => _favoriteTv;
 
   Future<Null> getAccount(String sessionId) async {
-    String url = _baseUrl + 'account?$_key&session_id=$sessionId';
+    String url = Constants.baseUrl + 'account?${Constants.key}&session_id=$sessionId';
     print('account url $url');
     http.Response response = await http.get(url);
     print('account response ${response.body}');
@@ -41,8 +39,8 @@ class AccountProvider with ChangeNotifier {
     if (_favoriteMovies.length > 0) return true;
     bool isLoaded = false;
     do {
-      String url = _baseUrl +
-          'account/${_account.id}/favorite/movies?$_key&session_id=$sessionId&sort_by=created_at.desc&page=${++favoriteTvPage}';
+      String url = Constants.baseUrl +
+          'account/${_account.id}/favorite/movies?${Constants.key}&session_id=$sessionId&sort_by=created_at.desc&page=${++favoriteTvPage}';
       print('accountFavorite url $url');
       http.Response response = await http.get(url);
       Map<String, dynamic> res = json.decode(response.body);
@@ -57,8 +55,8 @@ class AccountProvider with ChangeNotifier {
     bool isLoaded = false;
 
     do {
-      String url = _baseUrl +
-          'account/${_account.id}/favorite/tv?$_key&session_id=$sessionId&sort_by=created_at.desc&page=${++favoritePage}';
+      String url = Constants.baseUrl +
+          'account/${_account.id}/favorite/tv?${Constants.key}&session_id=$sessionId&sort_by=created_at.desc&page=${++favoritePage}';
       print('accountFavorite tv url $url');
       http.Response response = await http.get(url);
       Map<String, dynamic> res = json.decode(response.body);
@@ -85,8 +83,8 @@ class AccountProvider with ChangeNotifier {
     }
 
     // building request
-    String url = _baseUrl +
-        'account/${_account.id}/favorite?$_key&session_id=$sessionId';
+    String url = Constants.baseUrl +
+        'account/${_account.id}/favorite?${Constants.key}&session_id=$sessionId';
     Map<String, dynamic> requestBody = {
       'media_type': mediaType.toString(),
       'media_id': mediaType == MediaType.Movie ? 'movie' : 'tv',

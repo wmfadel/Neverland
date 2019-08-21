@@ -5,10 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/tv_details.dart';
+import '../constants.dart';
 
 class DetailedTvProvider with ChangeNotifier {
-  final String _baseUrl = 'https://api.themoviedb.org/3/';
-  final String _key = 'api_key=ADD_YOUR_OWN_KEY';
   bool isLoading = false;
   TVDetails _tvDetails;
 
@@ -18,7 +17,7 @@ class DetailedTvProvider with ChangeNotifier {
   Future<bool> getMovieDetails(int id) async {
     if (!isLoading) {
       isLoading = true;
-      String url = '${_baseUrl}tv/$id?$_key&append_to_response=credits';
+      String url = '${Constants.baseUrl}tv/$id?${Constants.key}&append_to_response=credits';
       print('tv url $url');
       http.Response response = await http.get(url);
       print('tv requested');

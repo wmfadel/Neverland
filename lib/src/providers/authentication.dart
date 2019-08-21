@@ -9,9 +9,9 @@ import '../models/auth_model.dart';
 import '../models/request_token.dart';
 import '../models/request_token_error.dart';
 
+import '../constants.dart';
+
 class Authentication with ChangeNotifier {
-  final String _baseUrl = 'https://api.themoviedb.org/3/';
-  final String _key = 'api_key=ADD_YOUR_OWN_KEY';
   RequestToken _requestToken;
   RequestTokenError _requestTokenError;
   AuthModel _authModel;
@@ -39,7 +39,7 @@ class Authentication with ChangeNotifier {
   Future<bool> getRequestToken() async {
     bool isError = false;
     if (_requestToken != null) return true;
-    String url = _baseUrl + 'authentication/token/new?$_key';
+    String url = Constants.baseUrl + 'authentication/token/new?${Constants.key}';
     print('token url : $url');
     http.Response response = await http.get(url).catchError((err) {
       if(err != null)
@@ -62,8 +62,8 @@ class Authentication with ChangeNotifier {
 
   Future<dynamic> login() async {
     if (requestToken == null) return false;
-    String url = _baseUrl +
-        'authentication/token/validate_with_login?$_key&username=$_name&password=$_pass&request_token=${_requestToken.request_token}';
+    String url = Constants.baseUrl +
+        'authentication/token/validate_with_login?${Constants.key}&username=$_name&password=$_pass&request_token=${_requestToken.request_token}';
     print('token url : $url');
     http.Response response = await http.post(url);
     print(' response ${response.body.toString()}');
@@ -77,8 +77,8 @@ class Authentication with ChangeNotifier {
   }
 
   Future<bool> createSession() async {
-    String url = _baseUrl +
-        'authentication/session/new?$_key&request_token=${requestToken.request_token}';
+    String url = Constants.baseUrl +
+        'authentication/session/new?${Constants.key}&request_token=${requestToken.request_token}';
     print('session url : $url');
     http.Response response = await http.get(url);
     print('session response ${response.body.toString()}');

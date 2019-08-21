@@ -8,10 +8,9 @@ import 'package:http/http.dart' as http;
 
 // files imports
 import '../models/movie.dart';
+import '../constants.dart';
 
 class MoviesProvider with ChangeNotifier {
-  final String _baseUrl = 'https://api.themoviedb.org/3/';
-  final String _key = 'api_key=ADD_YOUR_OWN_KEY';
   int _playingPage = 0;
   bool isLoadingNowPlaying = false;
   int _popularPage = 0;
@@ -37,7 +36,7 @@ class MoviesProvider with ChangeNotifier {
       isLoadingNowPlaying = true;
       notifyListeners();
       final String url =
-          '${_baseUrl}movie/now_playing?$_key&page=${++_playingPage}';
+          '${Constants.baseUrl}movie/now_playing?${Constants.key}&page=${++_playingPage}';
       http.Response response = await http.get(url);
       var res = json.decode(response.body);
       for (var i in res['results']) {
@@ -56,7 +55,7 @@ class MoviesProvider with ChangeNotifier {
       isLoadingPopular = true;
       notifyListeners();
       final String url =
-          '${_baseUrl}movie/popular?$_key&page=${++_popularPage}';
+          '${Constants.baseUrl}movie/popular?${Constants.key}&page=${++_popularPage}';
       http.Response response = await http.get(url);
       var res = json.decode(response.body);
       for (var i in res['results']) {
@@ -74,7 +73,7 @@ class MoviesProvider with ChangeNotifier {
     if (!isLoadingTop && _topRatedMovies.length <= 150) {
       isLoadingTop = true;
       notifyListeners();
-      final String url = '${_baseUrl}movie/top_rated?$_key&page=${++_topPage}';
+      final String url = '${Constants.baseUrl}movie/top_rated?${Constants.key}&page=${++_topPage}';
       http.Response response = await http.get(url);
       var res = json.decode(response.body);
       for (var i in res['results']) {
